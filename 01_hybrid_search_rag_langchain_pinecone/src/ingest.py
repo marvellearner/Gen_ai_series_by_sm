@@ -9,7 +9,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 import nltk
 from pinecone import Pinecone, ServerlessSpec
 from pinecone_text.sparse import BM25Encoder
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import PineconeHybridSearchRetriever
 
 # Load environment variables
@@ -71,10 +71,10 @@ def prepare_pinecone_index(index_name: str, pc: Pinecone):
     
     if index_name not in existing_indexes:
         print(f"Creating Pinecone Index: '{index_name}'...")
-        # OpenAI text-embedding-3-small and text-embedding-ada-002 use 1536 dimensions
+        # HuggingFace all-MiniLM-L6-v2 uses 384 dimensions
         pc.create_index(
             name=index_name,
-            dimension=1536,
+            dimension=384,
             metric="dotproduct",  # Crucial: hybrid search requires dotproduct metric
             spec=ServerlessSpec(
                 cloud="aws",
@@ -103,11 +103,8 @@ def run_ingestion(index_name: str, encoder_path: Path = DEFAULT_ENCODER_PATH, do
     bm25_encoder.dump(str(encoder_path))
     
     # 3. Setup Dense Embeddings
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-    if not openai_api_key:
-        raise ValueError("OPENAI_API_KEY environment variable is not set. Please check your .env file.")
-    
-    embeddings = OpenAIEmbeddings(api_key=openai_api_key, model="text-embedding-3-small")
+    print("Initializing HuggingFaceEmbeddings (all-MiniLM-L6-v2)...")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     
     # 4. Connect to index
     index = pc.Index(index_name)

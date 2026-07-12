@@ -8,7 +8,8 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from pinecone import Pinecone
 from pinecone_text.sparse import BM25Encoder
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.retrievers import PineconeHybridSearchRetriever
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -39,10 +40,8 @@ def get_hybrid_retriever(index_name: str, encoder_path: Path = DEFAULT_ENCODER_P
     bm25_encoder.load(str(encoder_path))
     
     # 3. Setup Dense Embeddings
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-    if not openai_api_key:
-        raise ValueError("OPENAI_API_KEY is not set.")
-    embeddings = OpenAIEmbeddings(api_key=openai_api_key, model="text-embedding-3-small")
+    print("Initializing HuggingFaceEmbeddings (all-MiniLM-L6-v2)...")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     
     # 4. Connect to Pinecone Index
     index = pc.Index(index_name)
