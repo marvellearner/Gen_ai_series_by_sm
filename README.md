@@ -12,8 +12,8 @@ Below is the directory of all projects in this series, starting with Project 01.
 
 | # | Project Name | Tech Stack | Status | Description |
 |---|--------------|------------|--------|-------------|
-| **01** | **[Hybrid Search RAG](file:///c:/Users/sarth/Gen_ai_series_by_sm/01_hybrid_search_rag_langchain_pinecone)** | LangChain, Pinecone, OpenAI, BM25 | ⚙️ In Progress | RAG application using hybrid search (dense + sparse retrieval) for higher accuracy. |
-| **02** | *Coming Soon* | - | ⏳ Planned | Next Gen AI project. |
+| **01** | **[Hybrid Search RAG](file:///c:/Users/sarth/Gen_ai_series_by_sm/01_hybrid_search_rag_langchain_pinecone)** | LangChain, Pinecone, OpenAI, HF Embeddings, BM25 | ✅ Done | RAG application using hybrid search (dense + sparse retrieval) for higher accuracy. |
+| **02** | **[Hybrid Search RAG with Re-ranking](file:///c:/Users/sarth/Gen_ai_series_by_sm/02_hybrid_search_rag_with_reranking)** | LangChain, Chroma, OpenAI, HF Embeddings, BM25, FlashRank | ✅ Done | Hybrid RAG application with local database and Cross-Encoder re-ranking. |
 
 ---
 
